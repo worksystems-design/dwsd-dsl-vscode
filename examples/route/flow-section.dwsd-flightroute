@@ -1,0 +1,4 @@
+route "Simple Flow"
+flow:
+    @backlog
+    @discovery

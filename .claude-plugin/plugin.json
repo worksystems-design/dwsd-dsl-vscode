@@ -1,0 +1,7 @@
+{
+  "name": "dwsd-dsl",
+  "description": "Read and write the DWSD board and flight-route DSLs — syntax reference + minimal examples bundled.",
+  "version": "0.1.0",
+  "author": { "name": "Thomas Krause" },
+  "keywords": ["dwsd", "dsl", "board", "flightroute", "kanban", "flightlevels"]
+}

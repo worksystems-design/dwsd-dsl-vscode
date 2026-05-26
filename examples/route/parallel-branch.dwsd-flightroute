@@ -1,0 +1,5 @@
+route "Parallel Branch"
+flow:
+    @discovery
+      -[generate]-> @build
+      -[deliver]
