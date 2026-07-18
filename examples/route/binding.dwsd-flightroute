@@ -1,0 +1,16 @@
+# binding — a `bound-to:` layer maps a route band to a concrete board via the shared locator.
+title: Bound Route
+for: feature
+bands:
+  - name: Coordination
+    fl: 2
+  - name: Delivery
+    fl: 1
+path:
+  - epic @ Coordination --> story @ Delivery
+bound-to:
+  - band: Delivery
+    boards:
+      - board: "[[team-alpha]]"
+        stages:
+          - story: "lane:Frontend/col:Doing"

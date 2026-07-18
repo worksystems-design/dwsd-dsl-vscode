@@ -1,4 +1,12 @@
-board "Delivery Board"
-Backlog
-Doing
-Done
+title: Delivery Board
+flightlevel: FL2
+timebox: 2w
+aging: 7d
+
+# The board-level header keys render in the board header: `board:` is the title,
+# `flightlevel:` a pastel FL badge (FL1 | FL2 | FL3), `timebox:` a deadline
+# countdown chip, `aging:` a board-level aging chip (⏳ Nd).
+columns:
+  - Backlog
+  - Doing
+  - Done

@@ -1,0 +1,14 @@
+# refs — a plain valid route; a companion entity anchors to one of its stages host-side (see anchors.md).
+title: Referenced Route
+for: feature
+bands:
+  - name: Coordination
+    fl: 2
+  - name: Delivery
+    fl: 1
+triggers:
+  - name: new feature idea
+    generates:
+      - epic @ Coordination
+path:
+  - epic @ Coordination --> story @ Delivery

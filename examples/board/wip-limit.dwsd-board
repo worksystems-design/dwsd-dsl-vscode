@@ -1,4 +1,13 @@
-Backlog
-Doing [3]
-Review [1..2]
-Done
+title: WIP Limits
+flightlevel: FL2
+
+# `wip:` caps work-in-progress per column. A single number is the MAX only
+# (renders as a bare count, e.g. `3`); a `[min, max]` list is a range (renders
+# `min..max`, e.g. `1..2`). Both forms appear below.
+columns:
+  - Backlog
+  - name: Doing
+    wip: 3
+  - name: Review
+    wip: [1, 2]
+  - Done

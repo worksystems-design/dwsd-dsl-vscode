@@ -1,0 +1,6 @@
+# flightlevels — the three Flight Level bands (1 operational, 2 coordination, 3 strategy).
+mode: declared
+work-systems:
+  - { name: "Squad Aurora", flightlevel: 1 }
+  - { name: "Reliability Mid", flightlevel: 2 }
+  - { name: "Delivery Ops", flightlevel: 3 }

@@ -1,3 +1,15 @@
-group Development
-  In Dev
-  Code Review
+title: Groups
+flightlevel: FL2
+
+# A board-level `groups:` block bands a set of columns under a named group bar.
+# Columns-only groups flatten into the board flow (carrying their group path)
+# and emit a group sidecar that paints the band over those columns.
+groups:
+  - name: Development
+    columns:
+      - In Dev
+      - Code Review
+  - name: Delivery
+    columns:
+      - Staging
+      - Done

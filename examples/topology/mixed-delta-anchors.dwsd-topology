@@ -1,0 +1,19 @@
+# mixed-delta-anchors — diff authoring. `mode: mixed` overlays declared deltas
+# (add/change/remove) onto the inferred topology, and `anchors:` declares the
+# type-keyed entities attached to a work-system (agreements, meetings, ...).
+mode: mixed
+work-systems:
+  - name: "Squad Aurora"
+    flightlevel: 1
+    delta: add
+    anchors:
+      agreement: ["Team Working Agreement"]
+      meeting: ["Weekly Sync"]
+  - name: "Reliability Mid"
+    flightlevel: 2
+    delta: change
+  - name: "Legacy Ops"
+    flightlevel: 3
+    delta: remove
+contributes-to:
+  - { from: "Squad Aurora", to: "Reliability Mid", delta: add }

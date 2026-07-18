@@ -1,0 +1,8 @@
+# minimal — the smallest complete route: one band, one generate edge between two stages.
+title: Minimal Route
+for: feature
+bands:
+  - name: Delivery
+    fl: 1
+path:
+  - epic @ Delivery -> story @ Delivery

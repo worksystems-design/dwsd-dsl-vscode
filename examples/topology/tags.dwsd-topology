@@ -1,0 +1,5 @@
+# tags — string lists on work-systems (colored tag markers in the rendered Local View).
+mode: declared
+work-systems:
+  - { name: "Squad Aurora", flightlevel: 1, tags: ["delivery", "core"] }
+  - { name: "Delivery Ops", flightlevel: 3, tags: ["strategy"] }

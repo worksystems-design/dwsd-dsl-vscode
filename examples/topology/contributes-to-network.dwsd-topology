@@ -1,0 +1,14 @@
+# contributes-to-network — several sources contribute UP to higher-level targets; one system feeds TWO targets (a network, not a single-rooted tree).
+# Edges point same-or-higher flight level (the value chain flows upward).
+mode: declared
+work-systems:
+  - { name: "Squad Aurora", flightlevel: 1 }
+  - { name: "Squad Vega", flightlevel: 1 }
+  - { name: "Reliability Mid", flightlevel: 2 }
+  - { name: "Delivery Ops", flightlevel: 3 }
+  - { name: "Platform Strategy", flightlevel: 3 }
+contributes-to:
+  - { from: "Squad Aurora", to: "Reliability Mid" }
+  - { from: "Squad Vega", to: "Reliability Mid" }
+  - { from: "Reliability Mid", to: "Delivery Ops" }
+  - { from: "Reliability Mid", to: "Platform Strategy" }

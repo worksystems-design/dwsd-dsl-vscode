@@ -1,0 +1,14 @@
+# focus-radius — Local-View scoping. `focus:` centers the view on a work-system;
+# `radius:` bounds how far up/down/lateral the 1-hop ego-slice reaches.
+# lateral stays at 1 (lateral > 1 / relates-to expansion is not yet supported).
+mode: declared
+focus: "[[Reliability Mid]]"
+radius: { up: 2, down: 1, lateral: 1 }
+work-systems:
+  - { name: "Squad Aurora", flightlevel: 1 }
+  - { name: "Squad Vega", flightlevel: 1 }
+  - { name: "Reliability Mid", flightlevel: 2 }
+  - { name: "Delivery Ops", flightlevel: 3 }
+contributes-to:
+  - { from: "Squad Aurora", to: "Reliability Mid" }
+  - { from: "Reliability Mid", to: "Delivery Ops" }

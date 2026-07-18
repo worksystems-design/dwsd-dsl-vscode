@@ -1,6 +1,12 @@
-board "Strategy Board"
-  flightlevel: FL2
-  timebox: 2w
-Backlog
-Doing
-Done
+title: Strategy Board
+flightlevel: FL3
+
+# Board-level settings beyond the title. `tags:` here are board-scope descriptive
+# chips (→ AST `labels`), rendered as a labels legend in the header. The
+# removed/dormant keys `focus-fit:`, `labels:`, `policy:`, `refs:` are NOT
+# authored — the parser silently ignores them; the live keys are shown here.
+tags: [strategy, quarterly]
+columns:
+  - Backlog
+  - Doing
+  - Done

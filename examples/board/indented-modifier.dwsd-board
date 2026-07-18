@@ -1,5 +1,14 @@
-Backlog
-Doing
-  returns: 2
-  policy: "Pull only when capacity is free"
-Done
+title: Indented Modifiers
+flightlevel: FL2
+
+# The same spelled-out modifier keys, written as YAML BLOCK (indented) object
+# entries — `name:` on its own line with each modifier key indented beneath it.
+# `max-returns:` (→ AST `returns`) renders a `↻N` rework chip; `aging:` renders
+# an aging threshold chip. (The legacy `policy:` key was REMOVED — use
+# `agreements:`; it is not authored here.)
+columns:
+  - Backlog
+  - name: Doing
+    max-returns: 2
+    aging: 5d
+  - Done

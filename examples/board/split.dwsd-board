@@ -1,4 +1,16 @@
-In Flight
-  split
-    Develop
-    Verify
+title: Split Columns
+flightlevel: FL2
+
+# A `split:` sub-divides a column into sections. `direction:` sets orientation
+# (horizontal = side-by-side, vertical = stacked; default vertical). Each `of:`
+# entry is a section with a required `name:` plus optional per-section modifiers
+# (here `status-category:` tints the section name band).
+columns:
+  - Backlog
+  - name: In Flight
+    split:
+      direction: horizontal
+      of:
+        - { name: Develop, status-category: in-progress }
+        - { name: Verify, status-category: assess }
+  - Done

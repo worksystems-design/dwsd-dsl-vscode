@@ -1,0 +1,12 @@
+# edges — all three canonical edges in one route: generate (solid), copy (dashed), feedback (dotted).
+title: Edge Vocabulary
+for: feature
+bands:
+  - name: Strategy
+    fl: 3
+  - name: Delivery
+    fl: 1
+path:
+  - epic @ Strategy -> story @ Strategy
+  - story @ Strategy --> task @ Delivery
+  - task @ Delivery ..> epic @ Strategy

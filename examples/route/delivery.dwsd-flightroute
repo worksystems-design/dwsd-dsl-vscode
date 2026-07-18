@@ -1,0 +1,11 @@
+# delivery — a copy into the delivery band, then a dotted `..> ()` to the reserved outside-band sink.
+title: Delivery Route
+for: feature
+bands:
+  - name: Build
+    fl: 2
+  - name: Ship
+    fl: 1
+path:
+  - account @ Build --> account @ Ship
+  - account @ Ship ..> ()

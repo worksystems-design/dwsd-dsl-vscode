@@ -1,0 +1,4 @@
+# minimal — the smallest valid topology: a single declared work-system.
+mode: declared
+work-systems:
+  - { name: "Squad Aurora", flightlevel: 1 }

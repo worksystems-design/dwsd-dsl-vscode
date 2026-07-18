@@ -2,92 +2,118 @@
 
 Every flight-route construct, with a minimal example. Each example is a complete, parse-clean `*.dwsd-flightroute` file — the same bytes shipped under `examples/route/`.
 
-## activity arrow
+## edge vocabulary (generate/copy/feedback)
 
-An annotated edge between flow nodes: `-[generate]->`, `-[copy]->`, `-[feedback]->`, optionally typed `-[generate: @item]->`.
-
-```dwsd.flightroute
-route "Activity Arrow"
-flow:
-    @discovery
-      -[generate]-> @delivery
-```
-
-## bands:
-
-Custom flight-level bands declaration with id, label, and levels: `bands:` then `- id: … label: … levels: […]`.
+The three canonical edges in one `path:` — `generate` (`->`, solid, same band), `copy` (`-->`, dashed, cross-band), and `feedback` (`..>`, dotted).
 
 ```dwsd.flightroute
-route "Custom Bands"
+# edges — all three canonical edges in one route: generate (solid), copy (dashed), feedback (dotted).
+title: Edge Vocabulary
+for: feature
 bands:
-  - id: strategy label: "Strategy" levels: [3]
-  - id: delivery label: "Delivery" levels: [1] default
+  - name: Strategy
+    fl: 3
+  - name: Delivery
+    fl: 1
+path:
+  - epic @ Strategy -> story @ Strategy
+  - story @ Strategy --> task @ Delivery
+  - task @ Delivery ..> epic @ Strategy
 ```
 
-## flow:
+## multiple bands (one per flight level)
 
-The flow block: indented flow nodes (4 spaces) describing how items move between systems.
+Multiple `bands:` records, one named band per flight level (3/2/1); stages live across the named bands and hop between them along the `path:`. A single band may also span several levels via `fl: [1, 2]` (see the reference).
 
 ```dwsd.flightroute
-route "Simple Flow"
-flow:
-    @backlog
-    @discovery
+# bands — one named band per flight level; stages live across named bands.
+title: Multi-Band Route
+for: feature
+bands:
+  - name: Strategy
+    fl: 3
+  - name: Coordination
+    fl: 2
+  - name: Delivery
+    fl: 1
+path:
+  - vision @ Strategy --> epic @ Coordination
+  - epic @ Coordination --> story @ Delivery
 ```
 
-## for: item type
+## outside-band delivery (() / ⊙)
 
-Declares the primary item type the route describes: `for: @feature`.
+A `copy` into the ship band, then a dotted `..> ()` terminating at the reserved outside-band `()` / ⊙ sink.
 
 ```dwsd.flightroute
-route "Idea Pipeline"
-for: @feature
+# delivery — a copy into the delivery band, then a dotted `..> ()` to the reserved outside-band sink.
+title: Delivery Route
+for: feature
+bands:
+  - name: Build
+    fl: 2
+  - name: Ship
+    fl: 1
+path:
+  - account @ Build --> account @ Ship
+  - account @ Ship ..> ()
 ```
 
-## parallel branch
+## path & bands
 
-A parallel (6-space-indented) activity-arrow branch off a flow node, including the `-[deliver]` terminator.
+The minimal complete route: a `bands:` declaration plus a `path:` of one `generate` edge (`->`) between two stages in the `itemType @ Band` form.
 
 ```dwsd.flightroute
-route "Parallel Branch"
-flow:
-    @discovery
-      -[generate]-> @build
-      -[deliver]
+# minimal — the smallest complete route: one band, one generate edge between two stages.
+title: Minimal Route
+for: feature
+bands:
+  - name: Delivery
+    fl: 1
+path:
+  - epic @ Delivery -> story @ Delivery
 ```
 
-## path:
+## route → board binding (bound-to:)
 
-The flight-level sequence the work travels through: `path: FL3: Strategy -> FL2: Coordination -> FL1: Delivery`.
+A `bound-to:` layer maps a route band onto a concrete board and its stages via the shared `[[board]]` locator, keeping the `path:` itself unbound.
 
 ```dwsd.flightroute
-route "Flight Levels"
-path: FL3: Strategy -> FL2: Coordination -> FL1: Delivery
+# binding — a `bound-to:` layer maps a route band to a concrete board via the shared locator.
+title: Bound Route
+for: feature
+bands:
+  - name: Coordination
+    fl: 2
+  - name: Delivery
+    fl: 1
+path:
+  - epic @ Coordination --> story @ Delivery
+bound-to:
+  - band: Delivery
+    boards:
+      - board: "[[team-alpha]]"
+        stages:
+          - story: "lane:Frontend/col:Doing"
 ```
 
-## route name
+## route triggers
 
-The optional quoted name of a flight route: `route "Feature Delivery"` (or bare `route`).
-
-```dwsd.flightroute
-route "Feature Delivery"
-```
-
-## triggers:
-
-The comma-separated list of events that kick the route off: `triggers: new idea, customer request`.
+A plain valid route with external `triggers:` that generate stages and a `path:`; a companion entity can anchor to one of its stages host-side.
 
 ```dwsd.flightroute
-route "Intake"
-triggers: new idea, customer request
-```
-
-## typed-path flow ref
-
-A flow node referencing a board location, either `@board#column` or a typed path `@board#lane:Name/col:Name`.
-
-```dwsd.flightroute
-route "Typed Path Reference"
-flow:
-    @team-board#lane:Team Alpha/col:Doing
+# refs — a plain valid route; a companion entity anchors to one of its stages host-side (see anchors.md).
+title: Referenced Route
+for: feature
+bands:
+  - name: Coordination
+    fl: 2
+  - name: Delivery
+    fl: 1
+triggers:
+  - name: new feature idea
+    generates:
+      - epic @ Coordination
+path:
+  - epic @ Coordination --> story @ Delivery
 ```

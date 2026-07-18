@@ -1,0 +1,13 @@
+# bands — one named band per flight level; stages live across named bands.
+title: Multi-Band Route
+for: feature
+bands:
+  - name: Strategy
+    fl: 3
+  - name: Coordination
+    fl: 2
+  - name: Delivery
+    fl: 1
+path:
+  - vision @ Strategy --> epic @ Coordination
+  - epic @ Coordination --> story @ Delivery

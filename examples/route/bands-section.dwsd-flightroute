@@ -1,4 +1,0 @@
-route "Custom Bands"
-bands:
-  - id: strategy label: "Strategy" levels: [3]
-  - id: delivery label: "Delivery" levels: [1] default

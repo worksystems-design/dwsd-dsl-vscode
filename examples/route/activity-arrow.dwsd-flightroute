@@ -1,4 +1,0 @@
-route "Activity Arrow"
-flow:
-    @discovery
-      -[generate]-> @delivery

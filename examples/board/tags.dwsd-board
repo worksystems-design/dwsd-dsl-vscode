@@ -1,3 +1,12 @@
-Backlog
-Waiting #blocked
-Done
+title: Descriptive Tags
+flightlevel: FL2
+
+# `tags:` are DESCRIPTIVE chips (→ AST `labels`), rendered as label chips beside
+# the column name. They do NOT tint the header — header tinting is the separate
+# `status-category:` key. The column names here are deliberately neutral
+# (no status name-match) so the ONLY visual is the descriptive chips.
+columns:
+  - Backlog
+  - name: Build
+    tags: [frontend, urgent]
+  - Ship

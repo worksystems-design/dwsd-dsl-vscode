@@ -1,4 +1,18 @@
-lane Team Alpha
-  Backlog
-  Doing
-  Done
+title: Swimlanes
+flightlevel: FL2
+
+# `lanes:` are swimlanes. Each entry is a bare string (name-only) or an object
+# with `name:` + optional `type:` (named | assignee | expedite, default named)
+# and a lane-local `columns:` list that replaces the global flow for that lane.
+lanes:
+  - name: Team Alpha
+    type: named
+    columns:
+      - Backlog
+      - Doing
+      - Done
+  - name: Team Beta
+    columns:
+      - Backlog
+      - Doing
+      - Done

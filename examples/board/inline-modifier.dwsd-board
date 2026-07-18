@@ -1,3 +1,12 @@
-Backlog
-Doing aging: 3d
-Done
+title: Inline Modifiers
+flightlevel: FL2
+
+# Every modifier is a spelled-out YAML key (the legacy `Doing aging: 3d` sugar
+# is gone). This example uses YAML FLOW (inline) object entries —
+# `{ name: …, key: … }` on a single line — to attach modifiers. `aging:` is a
+# duration threshold; `status-category:` (closed set) tints the header.
+columns:
+  - Backlog
+  - { name: Doing, aging: 3d }
+  - { name: Review, status-category: assess }
+  - Done

@@ -1,3 +1,11 @@
-Backlog
-Doing
-Done
+title: Columns
+flightlevel: FL2
+
+# A column is the atomic unit of board flow. Each `columns:` entry is either a
+# bare string (name-only column) or an object carrying `name:` plus modifiers.
+# This minimal example shows both entry forms side by side — just the flow, no
+# modifiers.
+columns:
+  - Backlog
+  - name: Doing
+  - Done
