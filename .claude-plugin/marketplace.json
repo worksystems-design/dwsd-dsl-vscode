@@ -10,9 +10,8 @@
       "description": "Read and write the DWSD board, flight-route, and topology DSLs — NL→DSL authoring skill with per-DSL cards, syntax reference + parse-clean examples bundled.",
       "version": "0.2.0",
       "source": {
-        "type": "github",
-        "repository": "worksystems-design/dwsd-dsl-vscode",
-        "path": "."
+        "source": "url",
+        "url": "https://github.com/worksystems-design/dwsd-dsl-vscode.git"
       }
     }
   ]
