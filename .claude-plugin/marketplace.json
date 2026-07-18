@@ -1,6 +1,9 @@
 {
   "version": "1.0",
   "name": "dwsd-dsl-vscode",
+  "owner": {
+    "name": "Thomas Krause"
+  },
   "plugins": [
     {
       "name": "dwsd-dsl",
