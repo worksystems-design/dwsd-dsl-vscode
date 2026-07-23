@@ -34,9 +34,10 @@ schema + the per-construct diagnostics→fix tables are what let you author and
    - authoring a **topology** → read `cards/shared.md` + `cards/topology.md`
 
    `cards/shared.md` is the single source for the **concepts primer**, the
-   **Inside-Out / Outside-In** anchoring mechanic, the **locator grammar**, and the
-   **shared `title:` + `tags:` document header**. The per-DSL cards point back to it
-   rather than restating it.
+   **Inside-Out / Outside-In** anchoring mechanic, the **locator grammar** (incl. the
+   `.` document-root), the cross-DSL **`notes:`** annotation surface, and the **shared
+   `title:` + `tags:` document header**. The per-DSL cards point back to it rather than
+   restating it.
 3. **Author against the closed schema.** Use only the documented keys and closed
    value sets on the card. Every construct is a spelled-out YAML key — there is no
    hidden inline string-sugar (no `#status`, no `[wip]` bracket). Honor the

@@ -24,6 +24,7 @@ live-render fence is **`dwsd-topology`** (all four spellings —
 | `radius` | a number \| `inf` \| `{ up, down, lateral }` (default `{1,1,1}`) | `topology.unsupported-radius` |
 | `work-systems` (alias `work_systems`) | list of Work-System objects | `topology.invalid-work-system` (skip) |
 | `contributes-to` (alias `contributes_to`) | list of edge objects | `topology.invalid-edge` (skip) |
+| `notes` | list of `{ on, text, resolved? }` — inline annotations; `on:` is a position-only locator: `node:<name>` (a bare name or `[[node]]` too, incl. an inferred node in `mode: infer`), or `.` = whole topology. See **`shared.md` › Notes** | `topology.note-orphan` (warn) |
 
 - **Modes**: `infer` (derive the Local View from the indexer), `declared` (author
   lists everything explicitly), `mixed` (declared entries overlay the inferred
@@ -96,4 +97,20 @@ mode: declared
 work-systems:
   - { name: "Squad Aurora", flightlevel: 1, tags: ["delivery", "core"] }
   - { name: "Delivery Ops", flightlevel: 3, tags: ["strategy"] }
+```
+
+```dwsd-topology
+# `notes:` — inline annotations. `on: "."` is a whole-topology note (header bubble);
+# `on: node:…` anchors a rendered node; `resolved: true` recedes.
+title: Notes
+tags: [review]
+mode: declared
+work-systems:
+  - { name: "Squad Aurora", flightlevel: 1 }
+  - { name: "Delivery Ops", flightlevel: 3 }
+notes:
+  - on: "."
+    text: "**Draft** for the org review."
+  - on: "node:Squad Aurora"
+    text: Carries the most WIP — candidate for a bottleneck review
 ```

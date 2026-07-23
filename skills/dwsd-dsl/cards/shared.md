@@ -61,10 +61,17 @@ lane, a group, a split section, and the slot *before* / *in* / *after* it. Parse
 
 ```
 locator := head ('#' boardId)? ('/' path)? ('::' position)?
-path    := segment ('/' segment)*
+path    := '.' | '.' '/' segment ('/' segment)* | segment ('/' segment)*
 segment := kind ':' name        (kind ∈ lane | group | col | split | stage)
 position := 'before' | 'in' | 'after'
 ```
+
+**Document-root `.`** (XPath/filesystem convention). A leading `.` addresses the
+**whole document**: `.` alone = the entire board/route/topology (an empty path);
+`./<path>` is a path **from the root**, exactly equivalent to the bare path
+(`./col:Doing` ≡ `col:Doing`). `/` stays the path *separator*, so `.` is the free
+root token (no YAML quoting needed, though `on: "."` is the convention). Used by
+**notes** (below) to anchor at document scope.
 
 **Head forms** identify the file (resolved by **basename, case-insensitive**):
 
@@ -105,6 +112,53 @@ locator grammar — the `stage:` segment (landed Phase 26) is its one route
 extension: `[[Route]]/stage:epic @ Coordination::before`, with `#Route Name`
 disambiguating a file that hosts several routes (exactly like `#boardId`). The
 route-side marker/drawer delta lives in `docs/reference/route/anchors.md`.
+
+---
+
+## Notes — `notes:` (all three DSLs)
+
+A **note** is an author-written annotation that lives **inside** the document it
+annotates — unlike anchors, which arrive from *external* entities. `notes:` is a
+**document-level list**; each entry is `{ on, text, resolved? }`. Fuller reference:
+`docs/reference/{board,route,topology}/notes.md`.
+
+| Field | Shape | Meaning |
+|-------|-------|---------|
+| `on` | a **position-only locator** (string) | Where the note anchors. **No `[[file]]#` head** — a note addresses a position in its OWN document (same-doc), never across files. |
+| `text` | string | The note body. Supports a **safe minimal-markdown** subset — `**bold**`, `*italic*`, `` `code` `` — and nothing else (**no links**). |
+| `resolved` | bool (default `false`) | `true` = done: the marker **recedes** (faded) and the note folds into the drawer's **"Resolved"** subsection. |
+
+- **`on:` per DSL** — board: `col:` / `lane:` / `group:` / `split:` (and a `lane/col`
+  cell); route: `stage:<itemType> @ <band>`; topology: `node:<name>` (a bare name or
+  `[[node]]` resolve too, including a **purely-inferred** node in `mode: infer`).
+- **`on: "."` = the whole document** (doc-root, see the locator grammar above). It
+  renders as ONE comment bubble in the document **header**, left of the doc-tag chips.
+  **N≥2 doc-notes collapse** to one header bubble with a count badge.
+- **Rendering.** A resolving `on:` paints a **comment-bubble marker** at the position
+  and adds the note to a shared **"Notes"** drawer bucket (click the marker to open,
+  scoped to that unit).
+- **Graceful degradation.** An `on:` that no longer resolves is an **orphan**: NO
+  canvas marker (never blanks the document), the text is preserved in the drawer's
+  **"Orphaned notes"** tray, and an editor **squiggle** lands on the entry
+  (`board.note-orphan` / `route.note-orphan` / `topology.note-orphan`, warning).
+
+```dwsd.board
+title: Sprint Board
+tags: [q3]
+notes:
+  - on: "."                     # whole-board note → ONE header bubble (left of the tags)
+    text: "**Under review** this sprint."
+  - on: "col:Doing"             # column note → a bubble on the Doing header
+    text: Blocked on infra — escalate today
+  - on: "col:Review"
+    text: Waiting on the steering decision
+    resolved: true
+columns:
+  - Backlog
+  - Doing
+  - Review
+  - Done
+```
 
 ---
 

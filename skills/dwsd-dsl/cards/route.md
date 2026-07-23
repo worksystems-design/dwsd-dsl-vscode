@@ -25,6 +25,7 @@ language id: `dwsd-flightroute`). The only string-sugar is the edge line itself.
 | `triggers` | list of `{ name, generates }` — external stickies OUTSIDE bands, fan-out capable | `route.invalid-trigger` (skip) |
 | `path` | glyph-typed edge list (see below) | `route.invalid-edge` (skip/error); `route.edge-band-constraint` (warn) |
 | `bound-to` | band→board bindings (see below) | `route.invalid-bound-to` (skip); `route.flow-not-subset-path` (**error**) |
+| `notes` | list of `{ on, text, resolved? }` — inline annotations; `on:` is a position-only locator: `stage:<itemType> @ <band>`, or `.` = whole route. See **`shared.md` › Notes** | `route.note-orphan` (warn) |
 
 - **Bands** — each `{ name, fl? }`. `fl` is a single number (one flight level) OR
   a numeric array (`[2, 3]`) → a multi-FL **span** (one color, **no gradient**).
@@ -133,4 +134,23 @@ bound-to:
   - band: Ship
     boards:
       - board: "[[team-alpha]]"
+```
+
+```dwsd.flightroute
+# `notes:` — inline annotations. `on: "."` is a whole-route note (header bubble);
+# `on: stage:…` anchors a painted stage; `resolved: true` recedes.
+title: Notes
+tags: [q3]
+for: feature
+bands:
+  - name: Delivery
+    fl: 1
+path:
+  - epic @ Delivery -> story @ Delivery
+notes:
+  - on: "."
+    text: "**Whole-route retro** — revisit the hand-offs."
+  - on: "stage:epic @ Delivery::before"
+    text: Confirm the API contract before this stage
+    resolved: true
 ```

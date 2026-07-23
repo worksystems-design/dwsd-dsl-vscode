@@ -26,6 +26,7 @@ the rest of the document still parses. **There is no inline string-sugar** (no
 | `columns` | list of column entries (bare string OR object with `name` + modifiers) | `board.invalid-column` |
 | `lanes` | list of lane entries | `board.invalid-lane` |
 | `groups` | list of board-level group blocks (nesting capped at depth 3) | `board.invalid-group` / `board.nested-too-deep` |
+| `notes` | list of `{ on, text, resolved? }` — inline annotations; `on:` is a position-only locator (`col:`/`lane:`/`group:`/`split:`, or `.` = whole board). See **`shared.md` › Notes** | `board.note-orphan` (warn) |
 
 **Column modifiers** (on an object column entry): `name`, `wip` (a number or a
 `[min, max]` pair → `board.invalid-wip`), `aging`, `max-returns`,
@@ -105,4 +106,24 @@ agreements:
   - "[[example-definition-of-ready]]"
   - "[[example-definition-of-done]]"
   - "Daily standup at 09:30. Keep the board honest; respect the WIP caps."
+```
+
+```dwsd.board
+# `notes:` — inline annotations. `on: "."` is a whole-board note (header bubble);
+# `on: col:…` anchors a column; `resolved: true` recedes + folds into "Resolved".
+title: Notes
+tags: [q3]
+notes:
+  - on: "."
+    text: "**Under review** this sprint."
+  - on: "col:Doing"
+    text: Blocked on infra — escalate today
+  - on: "col:Review"
+    text: Waiting on the steering decision
+    resolved: true
+columns:
+  - Backlog
+  - Doing
+  - Review
+  - Done
 ```
