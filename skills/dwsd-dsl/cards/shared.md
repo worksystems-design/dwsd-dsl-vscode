@@ -6,9 +6,9 @@
 > `docs/reference/document-header.md`.
 
 This is the ONE place the **concepts primer**, the **Inside-Out / Outside-In**
-anchoring mechanic, the **locator grammar**, and the **shared document header**
-live for agents. The per-DSL cards (`board.md`, `route.md`, `topology.md`) POINT
-here — they never restate this story.
+anchoring mechanic, the **locator grammar**, the **annotation entities** that use
+it, and the **shared document header** live for agents. The per-DSL cards
+(`board.md`, `route.md`, `topology.md`) POINT here — they never restate this story.
 
 ---
 
@@ -49,7 +49,8 @@ positions, the indexer builds a reverse index, and the board renders what points
 at it. A board author may **also** declare *internal* `agreements:` /
 `interactions:` directly on a column/lane/group (*inside-out*); when both target
 the same position, the renderer blends them into one surface. The connective
-tissue is the **locator** below.
+tissue is the **locator** below; the full roster of entities that may point in is
+**The annotation entities**, further down.
 
 ---
 
@@ -112,6 +113,135 @@ locator grammar — the `stage:` segment (landed Phase 26) is its one route
 extension: `[[Route]]/stage:epic @ Coordination::before`, with `#Route Name`
 disambiguating a file that hosts several routes (exactly like `#boardId`). The
 route-side marker/drawer delta lives in `docs/reference/route/anchors.md`.
+
+---
+
+## The annotation entities — what points *into* a document
+
+The entities that anchor **into** board positions, route stages and topology nodes
+are plain Markdown files: **one file = one entity**, its kind decided by the
+frontmatter **`type:`** key. The DSL documents never declare them; the entities
+declare where they land, and the renderer paints what points at it (outside-in,
+above).
+
+Two families matter here beyond the marker types, and until now this card knew
+neither.
+
+| `type:` | Anchor field | What it is | Paints |
+|---|---|---|---|
+| `interaction` · `meeting` | `interaction-of:` (+ `for-domain:`) | A recurring touchpoint | FL-tinted marker in the bottom marker row |
+| `agreement` | `agreement-of:` (+ `for-domain:`) | A rule the system agreed on | FL-tinted marker in the bottom marker row |
+| `ai-agent` | `interaction-of:` | A non-human participant | FL-tinted marker in the bottom marker row |
+| `signal` | **`observes:`** | A selected datum, **before** interpretation | type-colored **location pin**, node top-left |
+| `insight` | **`observes:`** | An interpretation drawn from signals | location pin |
+| `driver` | **`for-domain:`** | The motive to act — situation · effect · need | location pin |
+| `proposal` | **`for-domain:`** | A proposed response, before consent | location pin |
+| `organizational-decision-record` | **`for-domain:`** | The decision once taken (ODR) | its own weightier **record marker** |
+
+**`observes:` vs. `for-domain:`.** `observes:` points at *what was seen or
+interpreted* — an individual, a unit, a work system, or a board position; it takes
+the full value-polymorphic **locator** above. `for-domain:` points **up** at the
+**work system (domain)** that has the need — a bare `[[Work System]]` wikilink, never
+a board or route position. Getting this backwards is the commonest authoring error
+in this family: a `driver` does not observe a column.
+
+### The chain
+
+```
+signal  →  insight  →  driver  →  proposal  →  ODR  →  agreement(s)
+(data)     (meaning)   (motive)   (response)  (decided)  (operational)
+```
+
+The first four are still **in flux**; the ODR is the decision **recorded**; the
+`agreement`s carry that decision out. An ODR is pinned at the **domain**
+(`for-domain:`), its agreements **where the work happens** (`agreement-of:`) — one
+decision up at the system, its consequences down in the flow. That is why the two
+anchor fields differ, and why an ODR and an agreement are different rungs rather
+than the same rung about different subjects.
+
+> **`organizational-decision-record` is spelled out on purpose.** The
+> `organizational` qualifier is a **threshold, not decoration**: plenty gets decided
+> about a product, a tool, or a team's own practice, and none of that is an ODR.
+> Write one when the decision concerns the organization's **structure, process,
+> people, or incentives**. The short label *Decision Records* appears only in the
+> preview's drawer and filter, where the context already says which scope is meant.
+
+### `derived-from:` — the shared emergence key
+
+`derived-from:` says **what an entity emerged from**. It is a **shared key on any
+entity**, not a per-type field — do not look for it on a type page, and do not omit
+it just because a given type's description does not mention it.
+
+- Each step may name its origin: an insight the signal(s) it interprets, a driver the
+  insight(s), a proposal the driver, an **ODR** the proposal, and an **`agreement`
+  the ODR it operationalizes**.
+- That last link is what makes a decision's **bundle** expressible with no bundle
+  field: the agreements belonging to one ODR are exactly those whose `derived-from:`
+  names it. It also answers *why does this rule apply?* long after the people who
+  agreed it have moved on.
+- **Optional everywhere**, **single value or list**, both spellings accepted
+  (`derived-from` = `derived_from`).
+- **Metadata only.** There is no `derived-from` relationship *type*: it is preserved
+  and readable, but it resolves to no marker, no pin and no typed edge.
+
+### Worked frontmatter
+
+```markdown
+---
+type: signal
+observes:
+  - "[[Emma Design Lead]]"
+---
+# Schmidt kommt um halb sechs
+
+Schmidt kommt um 17:30 Uhr vorbei.
+```
+
+The body of a `signal` is the selected datum, often one line — **no interpretation,
+no suggested actions**. The moment meaning is added it has become an `insight`.
+
+```markdown
+---
+type: driver
+for-domain: "[[Strategic Direction]]"
+status: new
+derived-from:
+  - "[[Cross-Team Alignment Gap]]"
+---
+# Standard-order hand-off has no owner
+
+## Current Situation
+## Effect
+## Need
+## Consequences
+```
+
+```markdown
+---
+type: organizational-decision-record
+for-domain: "[[Strategic Direction]]"
+status: accepted            # proposed | accepted | superseded | deprecated
+date: "2026-05-11"
+decision-makers:
+  - "[[COO]]"
+derived-from: "[[Merge the coordination systems]]"
+---
+## Context
+## Decision
+## Consequences
+```
+
+The ODR body is the Nygard-ADR minimal shape — **Context · Decision ·
+Consequences** — and nothing more is required. `status:` is drawer content only; the
+marker looks the same for every value.
+
+### How they group in the preview
+
+The filter menu and the drawer group these by **affordance**, not by where they sit
+in the chain: **Change conversation** holds the four still in flux (`signal` ·
+`insight` · `driver` · `proposal`, one layer, one drawer band), **Decision records**
+holds the ODR. Agreements / Interactions / AI Agents keep their own buckets. Do not
+expect a per-type filter row for the in-flux four — there is one row for all of them.
 
 ---
 

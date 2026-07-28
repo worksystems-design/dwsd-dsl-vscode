@@ -27,6 +27,13 @@ schema + the per-construct diagnostics→fix tables are what let you author and
 1. **Pick the DSL.** A kanban work system → **board**; how a work *type* flows
    across systems/levels → **route**; one focal work system + its 1-hop neighborhood
    → **topology**.
+
+   If the request is *not* a document but something that **points into** one — an
+   observation, an interpretation, a need, a proposed response, a recorded decision,
+   an agreement, a recurring touchpoint — it is an **annotation entity**: a plain
+   Markdown file with a frontmatter `type:`, authored by hand. Read
+   `cards/shared.md` § *The annotation entities*. Do not invent a DSL key for it;
+   the DSL document declares nothing about it.
 2. **Read the cards (reading order).** Always read the shared card first, then the
    matching per-DSL card:
    - authoring a **board** → read `cards/shared.md` + `cards/board.md`
@@ -35,9 +42,12 @@ schema + the per-construct diagnostics→fix tables are what let you author and
 
    `cards/shared.md` is the single source for the **concepts primer**, the
    **Inside-Out / Outside-In** anchoring mechanic, the **locator grammar** (incl. the
-   `.` document-root), the cross-DSL **`notes:`** annotation surface, and the **shared
-   `title:` + `tags:` document header**. The per-DSL cards point back to it rather than
-   restating it.
+   `.` document-root), the **annotation entities** that anchor into a document
+   (`signal` · `insight` · `driver` · `proposal` · `organizational-decision-record`
+   alongside `interaction` / `agreement` / `ai-agent`, with `observes:` /
+   `for-domain:` / `derived-from:`), the cross-DSL **`notes:`** annotation surface,
+   and the **shared `title:` + `tags:` document header**. The per-DSL cards point back
+   to it rather than restating it.
 3. **Author against the closed schema.** Use only the documented keys and closed
    value sets on the card. Every construct is a spelled-out YAML key — there is no
    hidden inline string-sugar (no `#status`, no `[wip]` bracket). Honor the
