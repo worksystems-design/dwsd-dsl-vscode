@@ -6,6 +6,28 @@ preview, for both Markdown fenced blocks (`dwsd.flightroute` / `dwsd.board` /
 `wsd-topology`) and standalone `*.dwsd-flightroute` / `*.dwsd-board` /
 `*.dwsd-topology` files.
 
+## What is in this repository
+
+**This is a distribution repository, not the extension's source code.** What you see here is
+generated from a private monorepo on every release, so there is no build to run and no
+`src/` to read:
+
+| Path | What it is |
+|---|---|
+| **[Releases](../../releases)** | the `.vsix` — the actual VS Code extension, attached as a release asset |
+| `.claude-plugin/` | the Claude Code plugin manifest (this repo doubles as a plugin marketplace) |
+| `skills/` | the authoring skill an agent loads — an NL→DSL workflow plus one card per DSL |
+| `docs/` | the syntax reference for all three DSLs |
+| `examples/` | one minimal, parse-clean file per construct |
+| `LICENSE` | MIT |
+
+So there are two things to install, and they are independent: the **extension** (from the
+release asset, for the editor) and the **Claude Code plugin** (from this repo as a
+marketplace, for agents). Take one, the other, or both.
+
+Issues and pull requests against generated files here will be overwritten by the next
+release — the source lives in the private monorepo.
+
 ## Why this exists
 
 DWSD — *Dynamic Worksystems Design* — describes how an organization works in plain text.
@@ -32,13 +54,46 @@ Marketplace). To install:
 VS Code installs the extension and activates it on the first `*.dwsd-flightroute`,
 `*.dwsd-board`, `*.dwsd-topology`, or Markdown file with a DWSD DSL fenced block.
 
-## Claude Code plugin
+## Install the Claude Code plugin
 
-This repo also ships a thin Claude Code teaching plugin, **`dwsd-dsl`**, that points an
-agent at the bundled syntax docs and examples. Add this repo as a plugin marketplace and
-install `dwsd-dsl`; the skill references `docs/concepts.md`, `docs/board-syntax.md`,
-`docs/route-syntax.md`, `docs/topology-syntax.md`, and `examples/` so there is nothing to
-keep in sync.
+This repo doubles as a **Claude Code plugin marketplace**. The plugin, **`dwsd-dsl`**, teaches
+an agent to read and write the three DSLs — it is a skill plus one card per DSL, pointing at
+the `docs/` and `examples/` in this same repo, so there is nothing to keep in sync.
+
+In Claude Code, run:
+
+```
+/plugin marketplace add worksystems-design/dwsd-dsl-vscode
+/plugin install dwsd-dsl@worksystems-design-dwsd-dsl-vscode
+```
+
+The first command registers this repo as a marketplace; the second installs the plugin from
+it. The long name after the `@` is the *marketplace* name (from `.claude-plugin/marketplace.json`),
+not the repo path — they differ on purpose.
+
+The install command opens a details view where you pick the installation scope. Then activate it
+in the running session:
+
+```
+/reload-plugins
+```
+
+From that point an agent can author `*.dwsd-board`, `*.dwsd-flightroute` and `*.dwsd-topology`
+files, and the matching Markdown fenced blocks, without being handed the syntax each time.
+
+To pick up a later release:
+
+```
+/plugin marketplace update worksystems-design-dwsd-dsl-vscode
+```
+
+> **If the `add` step fails on authentication:** GitHub `owner/repo` shorthand clones over SSH
+> by default. Either use the full HTTPS URL
+> (`/plugin marketplace add https://github.com/worksystems-design/dwsd-dsl-vscode.git`) or set
+> `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1`.
+
+**The plugin and the VS Code extension are separate installs.** The plugin gives an agent the
+language; the extension gives a human the live preview. Neither requires the other.
 
 ## Concepts & syntax reference
 
